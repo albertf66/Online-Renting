@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace = "online.renting.dao.CustomerMapper">
+
+	<resultMap type="customer" id="result">
+		<id property="cust_id" column="Customer_ID"/>
+		<result property="cust_name" column="Customer_Name"/>
+		<result property="cust_email" column="Customer_Email"/>
+		<result property="cust_pw" column="Customer_Password"/>
+		<result property="cust_phone" column="Customer_Phone"/>
+		<result property="cust_country" column="Customer_Country"/>
+	</resultMap>
+	
+	<select id="getAllCustomer" resultType="customer" resultMap="result">
+		SELECT * FROM customer
+	</select>
+	
+	<insert id="addCustomer" parameterType="customer" keyProperty="id" useGeneratedKeys="true">
+		INSERT INTO customer(Customer_Name, Customer_Email, Customer_Password, Customer_Phone, Customer_Country) 
+		VALUES(#{cust_name}, #{cust_email}, #{cust_pw}, #{cust_phone}, #{cust_country})
+	</insert>
+	
+	<delete id="deleteCustomer" parameterType="int">
+		DELETE FROM customer WHERE Customer_ID = #{customerId}
+	</delete>
+	
+	<select id="findById" parameterType="int" resultType="customer" resultMap="result">
+		SELECT * FROM customer WHERE Customer_ID = #{customerId}
+	</select>
+	
+	<select id="findByEmail" parameterType="String" resultType="customer" resultMap="result">
+		SELECT * FROM customer WHERE Customer_Email = #{customerEmail}
+	</select>
+	
+	<update id="updateEmployee" parameterType="customer">
+		UPDATE customer SET Customer_Name = #{cust_name}, Customer_Email = #{cust_email}, 
+		Customer_Password = #{cust_pw}, Customer_Phone = #{cust_phone}, Customer_Country = #{cust_country} 
+		WHERE Customer_ID = #{cust_id}
+	</update>
+</mapper>
